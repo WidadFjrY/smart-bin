@@ -30,7 +30,7 @@ func NewSmartBinService(db *gorm.DB, validator *validator.Validate, smartBinRepo
 
 func (serv *SmartBinServiceImpl) AddSmartBin(ctx context.Context, request web.SmartBinCreateRequest, userId string) web.SmartBinCreateResponse {
 	configRepo := repository.NewConfigRepository()
-	configServ := NewConfigService(serv.DB, configRepo)
+	configServ := NewConfigService(serv.DB, serv.Validator, configRepo)
 
 	valErr := serv.Validator.Struct(&request)
 	helper.ValError(valErr)
@@ -170,7 +170,7 @@ func (serv *SmartBinServiceImpl) GetSmartBinById(ctx context.Context, binId stri
 			IsLocked:             smartBinModel.IsLocked,
 			Location:             smartBinModel.Location,
 			Config: web.ConfigGetResponse{
-				Id:        smartBinModel.Config.ID,
+				ConfigId:  smartBinModel.Config.ID,
 				MaxHeight: smartBinModel.Config.MaxHeight,
 				MaxWeight: smartBinModel.Config.MaxWeight,
 			},
@@ -241,7 +241,7 @@ func (serv *SmartBinServiceImpl) GetSmartBins(ctx context.Context, page int, use
 				IsLocked:             smartBin.IsLocked,
 				Location:             smartBin.Location,
 				Config: web.ConfigGetResponse{
-					Id:        smartBin.Config.ID,
+					ConfigId:  smartBin.Config.ID,
 					MaxHeight: smartBin.Config.MaxHeight,
 					MaxWeight: smartBin.Config.MaxWeight,
 				},
@@ -304,7 +304,7 @@ func (serv *SmartBinServiceImpl) ClassifyImage(ctx context.Context, binId string
 
 func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId string, request web.UpdateValueRequest) web.UpdateValueResponse {
 	configRepo := repository.NewConfigRepository()
-	configServ := NewConfigService(serv.DB, configRepo)
+	configServ := NewConfigService(serv.DB, serv.Validator, configRepo)
 
 	sensorValues := map[string]float64{
 		"load_cell_organic":       request.LoadCellOrganic,
@@ -365,7 +365,7 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 
 func (serv *SmartBinServiceImpl) IsSmartBinFull(ctx context.Context, status bool, binId string) {
 	configRepo := repository.NewConfigRepository()
-	configServ := NewConfigService(serv.DB, configRepo)
+	configServ := NewConfigService(serv.DB, serv.Validator, configRepo)
 	config := configServ.GetConfigByBinId(ctx, binId)
 
 	if !status {

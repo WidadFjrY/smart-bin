@@ -6,6 +6,7 @@ import (
 	"smart-trash-bin/domain/model"
 	"smart-trash-bin/pkg/exception"
 	"smart-trash-bin/pkg/helper"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -29,4 +30,14 @@ func (repo *ConfigRepositoryImpl) GetCongifByBinId(ctx context.Context, tx *gorm
 	}
 	helper.Err(err)
 	return config
+}
+
+func (repo *ConfigRepositoryImpl) UpdateConfigById(ctx context.Context, tx *gorm.DB, config model.Config) time.Time {
+	err := tx.WithContext(ctx).Table("configs").Where("bin_id = ?", config.BinID).Updates(map[string]interface{}{
+		"max_height": config.MaxHeight,
+		"max_weight": config.MaxWeight,
+		"updated_at": time.Now(),
+	}).Error
+	helper.Err(err)
+	return time.Now()
 }

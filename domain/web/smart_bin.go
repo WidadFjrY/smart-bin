@@ -5,7 +5,7 @@ import (
 )
 
 type SmartBinCreateRequest struct {
-	BinId string `json:"bin_id" validator:"required,min=15"`
+	BinId string `json:"bin_id" validate:"required,min=15"`
 }
 
 type SmartBinCreateResponse struct {
@@ -14,8 +14,8 @@ type SmartBinCreateResponse struct {
 }
 
 type SmartBinUpdateRequest struct {
-	Name     string `json:"name" validator:"required"`
-	Location string `json:"location" validator:"required"`
+	Name     string `json:"name" validate:"required"`
+	Location string `json:"location" validate:"required"`
 }
 
 type SmartBinUpdateResponse struct {

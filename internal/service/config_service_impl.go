@@ -9,16 +9,18 @@ import (
 	"smart-trash-bin/pkg/helper"
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
 type ConfigServiceImpl struct {
 	DB         *gorm.DB
+	Validator  *validator.Validate
 	ConfigRepo repository.ConfigRepository
 }
 
-func NewConfigService(db *gorm.DB, configRepo repository.ConfigRepository) ConfigService {
-	return &ConfigServiceImpl{DB: db, ConfigRepo: configRepo}
+func NewConfigService(db *gorm.DB, validator *validator.Validate, configRepo repository.ConfigRepository) ConfigService {
+	return &ConfigServiceImpl{DB: db, Validator: validator, ConfigRepo: configRepo}
 }
 
 func (serv *ConfigServiceImpl) AddConfig(ctx context.Context, config model.Config) {
@@ -40,8 +42,28 @@ func (serv *ConfigServiceImpl) GetConfigByBinId(ctx context.Context, binId strin
 	})
 	helper.Err(txErr)
 	return web.ConfigGetResponse{
-		Id:        config.ID,
+		ConfigId:  config.ID,
 		MaxHeight: config.MaxHeight,
 		MaxWeight: config.MaxWeight,
+	}
+}
+
+func (serv *ConfigServiceImpl) UpdateConfigById(ctx context.Context, request web.ConfigUpdateRequest, binId string) web.ConfigUpdateRespponse {
+	errVal := serv.Validator.Struct(&request)
+	helper.ValError(errVal)
+
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		serv.ConfigRepo.UpdateConfigById(ctx, tx, model.Config{
+			BinID:     binId,
+			MaxHeight: request.MaxHeight,
+			MaxWeight: request.MaxWeight,
+		})
+		return nil
+	})
+	helper.Err(txErr)
+
+	return web.ConfigUpdateRespponse{
+		BinId:     binId,
+		UpdatedAt: time.Now(),
 	}
 }

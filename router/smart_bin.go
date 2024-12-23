@@ -11,6 +11,7 @@ import (
 func SmartBinRouter(router *gin.Engine, db *gorm.DB, cntrl controller.SmartBinController) {
 	router.POST("/api/bin/classification", cntrl.ClassifyImage)
 	router.POST("/api/bin/status", cntrl.UpdateSmartBinValue)
+
 	auth := router.Group("/")
 	auth.Use(middleware.Auth(db))
 	{

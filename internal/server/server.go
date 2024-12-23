@@ -22,10 +22,12 @@ func Run() {
 	gin.Use(helper.NewFileGinLog(), middleware.ErrorHandling())
 
 	userCntrl := di.UserDI(db, validator)
-	smartBinCntrl := di.SmartBinDi(db, validator)
+	smartBinCntrl := di.SmartBinDI(db, validator)
+	configCntrl := di.ConfigDI(db, validator)
 
 	router.UserRouter(gin, db, userCntrl)
 	router.SmartBinRouter(gin, db, smartBinCntrl)
+	router.ConfigRouter(gin, db, configCntrl)
 
 	err := gin.Run("localhost:8080")
 	helper.Err(err)

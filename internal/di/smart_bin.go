@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SmartBinDi(db *gorm.DB, validator *validator.Validate) controller.SmartBinController {
+func SmartBinDI(db *gorm.DB, validator *validator.Validate) controller.SmartBinController {
 	repo := repository.NewSmartBinRepository()
 	serv := service.NewSmartBinService(db, validator, repo)
 	cntrl := controller.NewSmartBinController(serv)
