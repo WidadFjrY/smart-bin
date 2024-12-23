@@ -1,0 +1,3 @@
+2024/12/23 18:05:52 | 200 | 6.9555ms | 127.0.0.1 | PUT | /api/bin/config/id/2NWEIO02IR5Y312 | PostmanRuntime/7.43.0 |
+2024/12/23 18:05:57 | 400 | 2.4166ms | 127.0.0.1 | PUT | /api/bin/config/id/2NWEIO02IR5Y312 | PostmanRuntime/7.43.0 |
+2024/12/23 18:06:09 | 200 | 10.8654ms | 127.0.0.1 | PUT | /api/bin/config/id/2NWEIO02IR5Y312 | PostmanRuntime/7.43.0 |
