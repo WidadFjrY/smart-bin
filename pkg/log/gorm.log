@@ -86,3 +86,12 @@ ORDER BY
 2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
 2024/12/26 09:39:56 [TRACE] 562.1µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
 2024/12/26 09:39:56 [TRACE] 505.5µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND constraint_name = 'fk_smart_bins_config' | -1 rows
+2024/12/26 09:40:15 [TRACE] 698.7µs | SELECT `is_valid` FROM `token_auths` WHERE token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJ1c2VyaWRFUmNtbzZXTmoiLCJFbWFpbCI6IndpZGFkYzcwQGdtYWlsLmNvbSIsImV4cCI6MTczNTE5Mjg2MX0.2NrEyJCeVcm4lecuynXtrJxoGfJVo7g322Thua3GiWs' ORDER BY `token_auths`.`id` LIMIT 1 | 1 rows
+2024/12/26 09:40:15 [TRACE] 0s | SELECT * FROM `configs` WHERE `configs`.`bin_id` IN ('2NWEIO02IR5Y312','2NWEIO02IR5Y315','2NWEIO02IR5Y395') | 3 rows
+2024/12/26 09:40:15 [TRACE] 798.2µs | SELECT * FROM `smart_bins` WHERE `smart_bins`.`group_id` = '2x6Sl8iom94NEuo' AND `smart_bins`.`deleted_at` IS NULL | 3 rows
+2024/12/26 09:40:15 [TRACE] 1.3466ms | SELECT * FROM `groups` WHERE id = '2x6Sl8iom94NEuo' ORDER BY `groups`.`id` LIMIT 1 | 1 rows
+2024/12/26 09:40:24 [TRACE] 1.6378ms | UPDATE `smart_bins` SET `is_locked`=false,`updated_at`='2024-12-26 09:40:24.35' WHERE group_id = '2x6Sl8iom94NEuo' | 3 rows
+2024/12/26 09:40:33 [TRACE] 677.2µs | SELECT `is_valid` FROM `token_auths` WHERE token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJ1c2VyaWRFUmNtbzZXTmoiLCJFbWFpbCI6IndpZGFkYzcwQGdtYWlsLmNvbSIsImV4cCI6MTczNTE5Mjg2MX0.2NrEyJCeVcm4lecuynXtrJxoGfJVo7g322Thua3GiWs' ORDER BY `token_auths`.`id` LIMIT 1 | 1 rows
+2024/12/26 09:40:33 [TRACE] 649.6µs | SELECT * FROM `smart_bins` WHERE `smart_bins`.`group_id` IN ('2x6Sl8iom94NEuo','6x4dpI5D45WZ2dZ') AND `smart_bins`.`deleted_at` IS NULL | 3 rows
+2024/12/26 09:40:33 [TRACE] 892.6µs | SELECT * FROM `groups` WHERE user_id = 'useridERcmo6WNj' | 2 rows
+2024/12/26 09:40:33 [TRACE] 639.1µs | SELECT count(*) FROM `groups` WHERE user_id = 'useridERcmo6WNj' | 1 rows
