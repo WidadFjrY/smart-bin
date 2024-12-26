@@ -263,17 +263,15 @@ func (serv *SmartBinServiceImpl) GetSmartBins(ctx context.Context, page int, use
 }
 
 func (serv *SmartBinServiceImpl) LockAndUnlockSmartBin(ctx context.Context, status bool, binId string) web.SmartBinUpdateResponse {
-	var updatedAt time.Time
-
 	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
-		updatedAt = serv.SmartBinRepo.LockAndUnlockSmartBin(ctx, tx, binId, status)
+		serv.SmartBinRepo.LockAndUnlockSmartBin(ctx, tx, binId, status)
 		return nil
 	})
 	helper.Err(txErr)
 
 	return web.SmartBinUpdateResponse{
 		ID:        binId,
-		UpdatedAt: updatedAt,
+		UpdatedAt: time.Now(),
 	}
 }
 
@@ -394,5 +392,69 @@ func (serv *SmartBinServiceImpl) IsSmartBinFull(ctx context.Context, status bool
 				panic(exception.NewBadRequestError("the trash must be emptied before it can be opened"))
 			}
 		}
+	}
+}
+
+func (serv *SmartBinServiceImpl) AddSmartBinToGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string, groupId string) web.SmartBinUpdateResponse {
+	valErr := serv.Validator.Struct(&request)
+	helper.ValError(valErr)
+
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		smartBin, isExsist := serv.SmartBinRepo.GetSmartBinById(ctx, tx, request.BinId)
+		if !isExsist {
+			panic(exception.NewNotFoundError("smart bin not found"))
+		} else {
+			if smartBin.UserID != userId {
+				panic(exception.NewBadRequestError("user doesn't own this smart bin"))
+			}
+		}
+		if smartBin.GroupID != nil {
+			panic(exception.NewBadRequestError("smart bin already in group"))
+		}
+		serv.SmartBinRepo.AddSmartBinToGroup(ctx, tx, groupId, request.BinId)
+		return nil
+	})
+	helper.Err(txErr)
+	return web.SmartBinUpdateResponse{
+		ID:        request.BinId,
+		UpdatedAt: time.Now(),
+	}
+}
+
+func (serv *SmartBinServiceImpl) RemoveSmartBinFromGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string) web.SmartBinUpdateResponse {
+	valErr := serv.Validator.Struct(&request)
+	helper.ValError(valErr)
+
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		smartBin, isExsist := serv.SmartBinRepo.GetSmartBinById(ctx, tx, request.BinId)
+		if !isExsist {
+			panic(exception.NewNotFoundError("smart bin not found"))
+		} else {
+			if smartBin.UserID != userId {
+				panic(exception.NewBadRequestError("user doesn't own this smart bin"))
+			}
+		}
+
+		serv.SmartBinRepo.RemoveSmartBinFromGroup(ctx, tx, request.BinId)
+		return nil
+	})
+	helper.Err(txErr)
+	return web.SmartBinUpdateResponse{
+		ID:        request.BinId,
+		UpdatedAt: time.Now(),
+	}
+}
+
+func (serv *SmartBinServiceImpl) LockAndUnlockByGroup(ctx context.Context, status bool, groupId string) web.SmartBinUpdateResponse {
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		serv.SmartBinRepo.LockAndUnlockByGroup(ctx, tx, groupId, status)
+		return nil
+	})
+
+	helper.Err(txErr)
+
+	return web.SmartBinUpdateResponse{
+		ID:        groupId,
+		UpdatedAt: time.Now(),
 	}
 }

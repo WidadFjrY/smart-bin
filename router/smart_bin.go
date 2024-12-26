@@ -20,7 +20,11 @@ func SmartBinRouter(router *gin.Engine, db *gorm.DB, cntrl controller.SmartBinCo
 		auth.GET("/api/bin/id/:bin_id", cntrl.GetSmartBinById)
 		auth.DELETE("/api/bin/id/:bin_id", cntrl.DeleteSmartBinById)
 		auth.GET("/api/bin/page/:page", cntrl.GetSmartBins)
-		auth.POST("/api/bin/lock/:bin_id", cntrl.LockSmartBin)
-		auth.POST("/api/bin/unlock/:bin_id", cntrl.UnlockSmartBin)
+		auth.PUT("/api/bin/lock/:bin_id", cntrl.LockSmartBin)
+		auth.PUT("/api/bin/unlock/:bin_id", cntrl.UnlockSmartBin)
+		auth.PUT("/api/group/add_bin/:group_id", cntrl.AddSmartBinToGroup)
+		auth.PUT("/api/group/remove_bin/", cntrl.RemoveSmartBinFromGroup)
+		auth.PUT("/api/group/lock/:group_id", cntrl.LockByGroup)
+		auth.PUT("/api/group/unlock/:group_id", cntrl.UnlockByGroup)
 	}
 }

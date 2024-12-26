@@ -12,4 +12,8 @@ type SmartBinController interface {
 	UnlockSmartBin(ctx *gin.Context)
 	ClassifyImage(ctx *gin.Context)
 	UpdateSmartBinValue(ctx *gin.Context)
+	AddSmartBinToGroup(ctx *gin.Context)
+	RemoveSmartBinFromGroup(ctx *gin.Context)
+	LockByGroup(ctx *gin.Context)
+	UnlockByGroup(ctx *gin.Context)
 }

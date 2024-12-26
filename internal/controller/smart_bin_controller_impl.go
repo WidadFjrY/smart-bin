@@ -20,10 +20,11 @@ import (
 
 type SmartBinControllerImpl struct {
 	SmartBinServ service.SmartBinService
+	GroupServ    service.GroupService
 }
 
-func NewSmartBinController(smartBinServ service.SmartBinService) SmartBinController {
-	return &SmartBinControllerImpl{SmartBinServ: smartBinServ}
+func NewSmartBinController(smartBinServ service.SmartBinService, groupServ service.GroupService) SmartBinController {
+	return &SmartBinControllerImpl{SmartBinServ: smartBinServ, GroupServ: groupServ}
 }
 
 func (cntrl *SmartBinControllerImpl) AddSmartBin(ctx *gin.Context) {
@@ -50,7 +51,7 @@ func (cntrl *SmartBinControllerImpl) AddSmartBin(ctx *gin.Context) {
 	mqttResp := helper.NewMQTT(mqttConf)
 	if mqttResp {
 		response := cntrl.SmartBinServ.AddSmartBin(ctx.Request.Context(), request, userId.(string))
-		helper.Response(ctx, http.StatusOK, "Ok", response)
+		helper.Response(ctx, http.StatusCreated, "Created", response)
 	} else {
 		panic(exception.NewNotFoundError(fmt.Sprintf("smart bin with id %s not found", request.BinId)))
 	}
@@ -267,5 +268,126 @@ func (cntrl *SmartBinControllerImpl) UpdateSmartBinValue(ctx *gin.Context) {
 		}
 		helper.NewMQTT(mqttConf)
 	}
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}
+
+func (cntrl *SmartBinControllerImpl) AddSmartBinToGroup(ctx *gin.Context) {
+	var request web.SmartBinCreateRequest
+	userId, _ := ctx.Get("user_id")
+	groupId := ctx.Params.ByName("group_id")
+
+	if ctx.Request.ContentLength == 0 {
+		panic(exception.NewBadRequestError("request body required"))
+	}
+
+	decoder := json.NewDecoder(ctx.Request.Body)
+	err := decoder.Decode(&request)
+	helper.Err(err)
+
+	response := cntrl.SmartBinServ.AddSmartBinToGroup(ctx, request, userId.(string), groupId)
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}
+
+func (cntrl *SmartBinControllerImpl) RemoveSmartBinFromGroup(ctx *gin.Context) {
+	var request web.SmartBinCreateRequest
+	userId, _ := ctx.Get("user_id")
+
+	if ctx.Request.ContentLength == 0 {
+		panic(exception.NewBadRequestError("request body required"))
+	}
+
+	decoder := json.NewDecoder(ctx.Request.Body)
+	err := decoder.Decode(&request)
+	helper.Err(err)
+
+	response := cntrl.SmartBinServ.RemoveSmartBinFromGroup(ctx, request, userId.(string))
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}
+
+func (cntrl *SmartBinControllerImpl) LockByGroup(ctx *gin.Context) {
+	userId, _ := ctx.Get("user_id")
+	groupId := ctx.Params.ByName("group_id")
+
+	if len(groupId) == 0 {
+		panic(exception.NewBadRequestError("group_id required"))
+	}
+
+	groups := cntrl.GroupServ.GetGroupById(ctx, groupId, userId.(string))
+	smartBins := groups.Group.Bins
+
+	var binIds []string
+
+	for _, smartBin := range smartBins {
+		if !smartBin.Data.IsLocked {
+			binIds = append(binIds, smartBin.Id)
+		}
+	}
+
+	if len(smartBins) == 0 {
+		panic(exception.NewBadRequestError(fmt.Sprintf("failed to lock all smart bin in group %s, 'cause group doesn't have any bin", groupId)))
+	}
+
+	if len(binIds) == 0 {
+		panic(exception.NewBadRequestError(fmt.Sprintf("failed to lock all smart bin in group %s, 'cause group already locked", groupId)))
+	}
+
+	for _, binId := range binIds {
+		mqttConf := web.MQTTRequest{
+			ClientId: "server",
+			Topic:    fmt.Sprintf("smartBin/lock/%s", binId),
+			Payload:  "LOCK_SMART_BIN",
+			MsgResp:  "OK",
+		}
+		mqttResp := helper.NewMQTT(mqttConf)
+		if !mqttResp {
+			panic(exception.NewBadRequestError(fmt.Sprintf("failed to lock  all smart bin in group %s, 'cause smart bin with id %s not found", groupId, binId)))
+		}
+	}
+
+	response := cntrl.SmartBinServ.LockAndUnlockByGroup(ctx, true, groupId)
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}
+
+func (cntrl *SmartBinControllerImpl) UnlockByGroup(ctx *gin.Context) {
+	userId, _ := ctx.Get("user_id")
+	groupId := ctx.Params.ByName("group_id")
+
+	if len(groupId) == 0 {
+		panic(exception.NewBadRequestError("group_id required"))
+	}
+
+	groups := cntrl.GroupServ.GetGroupById(ctx, groupId, userId.(string))
+	smartBins := groups.Group.Bins
+
+	var binIds []string
+
+	for _, smartBin := range smartBins {
+		if smartBin.Data.IsLocked {
+			binIds = append(binIds, smartBin.Id)
+		}
+	}
+
+	if len(smartBins) == 0 {
+		panic(exception.NewBadRequestError(fmt.Sprintf("failed to unlock all smart bin in group %s, 'cause group doesn't have any bin", groupId)))
+	}
+
+	if len(binIds) == 0 {
+		panic(exception.NewBadRequestError(fmt.Sprintf("failed to unlock all smart bin in group %s, 'cause group already locked", groupId)))
+	}
+
+	for _, binId := range binIds {
+		mqttConf := web.MQTTRequest{
+			ClientId: "server",
+			Topic:    fmt.Sprintf("smartBin/unlock/%s", binId),
+			Payload:  "UNLOCK_SMART_BIN",
+			MsgResp:  "OK",
+		}
+		mqttResp := helper.NewMQTT(mqttConf)
+		if !mqttResp {
+			panic(exception.NewBadRequestError(fmt.Sprintf("failed to unlock all smart bin in group %s, 'cause smart bin with id %s not found", groupId, binId)))
+		}
+	}
+
+	response := cntrl.SmartBinServ.LockAndUnlockByGroup(ctx, false, groupId)
 	helper.Response(ctx, http.StatusOK, "Ok", response)
 }

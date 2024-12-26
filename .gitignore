@@ -1,2 +1,4 @@
 .env
 /waste_model/model/waste.keras
+/pkg/log/gin.log
+/pkg/log/gorm.log

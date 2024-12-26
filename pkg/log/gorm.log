@@ -1,13 +1,13 @@
-2024/12/23 18:05:32 [TRACE] 542.7µs | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 794.5µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 1.1596ms | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'users' AND table_type = 'BASE TABLE' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 506.5µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 620.5µs | SELECT * FROM `users` LIMIT 1 | -1 rows
-2024/12/23 18:05:32 [TRACE] 1.1366ms | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'users' ORDER BY ORDINAL_POSITION | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 506.4µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 660.9µs | 
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 849µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 965µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'users' AND table_type = 'BASE TABLE' | -1 rows
+2024/12/26 09:39:56 [TRACE] 505.5µs | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 516µs | SELECT * FROM `users` LIMIT 1 | -1 rows
+2024/12/26 09:39:56 [TRACE] 1.8169ms | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'users' ORDER BY ORDINAL_POSITION | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 509.4µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 1.7112ms | 
 SELECT
 	TABLE_NAME,
 	COLUMN_NAME,
@@ -21,52 +21,52 @@ WHERE
 ORDER BY
 	INDEX_NAME,
 	SEQ_IN_INDEX | 2 rows
-2024/12/23 18:05:32 [TRACE] 507.9µs | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 867.7µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'users' AND constraint_name = 'uni_users_email' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 629.7µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 574.1µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'token_auths' AND table_type = 'BASE TABLE' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 510.9µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 521.3µs | SELECT * FROM `token_auths` LIMIT 1 | -1 rows
-2024/12/23 18:05:32 [TRACE] 506µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'token_auths' ORDER BY ORDINAL_POSITION | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 576.6µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 510.5µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'groups' AND table_type = 'BASE TABLE' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT * FROM `groups` LIMIT 1 | -1 rows
-2024/12/23 18:05:32 [TRACE] 638µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'groups' ORDER BY ORDINAL_POSITION | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 594.1µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 506µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'groups' AND constraint_name = 'fk_users_group' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 802µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND table_type = 'BASE TABLE' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 504µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT * FROM `smart_bins` LIMIT 1 | -1 rows
-2024/12/23 18:05:32 [TRACE] 523.3µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' ORDER BY ORDINAL_POSITION | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 505.4µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 505.1µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND constraint_name = 'fk_users_smart_bin' | -1 rows
-2024/12/23 18:05:32 [TRACE] 165.6µs | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 515.2µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND constraint_name = 'fk_groups_smart_bin' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 773µs | SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND index_name = 'idx_smart_bins_deleted_at' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 614.5µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 573.9µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND table_type = 'BASE TABLE' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 562.7µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT * FROM `configs` LIMIT 1 | -1 rows
-2024/12/23 18:05:32 [TRACE] 775.9µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'configs' ORDER BY ORDINAL_POSITION | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 726.2µs | 
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 509.7µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 610µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'users' AND constraint_name = 'uni_users_email' | -1 rows
+2024/12/26 09:39:56 [TRACE] 509.5µs | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 505.5µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'token_auths' AND table_type = 'BASE TABLE' | -1 rows
+2024/12/26 09:39:56 [TRACE] 512µs | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 553.8µs | SELECT * FROM `token_auths` LIMIT 1 | -1 rows
+2024/12/26 09:39:56 [TRACE] 637µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'token_auths' ORDER BY ORDINAL_POSITION | -1 rows
+2024/12/26 09:39:56 [TRACE] 56.9µs | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 71.2µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 706.9µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'groups' AND table_type = 'BASE TABLE' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 731.8µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 504.9µs | SELECT * FROM `groups` LIMIT 1 | -1 rows
+2024/12/26 09:39:56 [TRACE] 505.7µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'groups' ORDER BY ORDINAL_POSITION | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'groups' AND constraint_name = 'fk_users_group' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 833.9µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND table_type = 'BASE TABLE' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 505.1µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT * FROM `smart_bins` LIMIT 1 | -1 rows
+2024/12/26 09:39:56 [TRACE] 607.1µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' ORDER BY ORDINAL_POSITION | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 522.2µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND constraint_name = 'fk_users_smart_bin' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 515.9µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 540.2µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND constraint_name = 'fk_groups_smart_bin' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 823.8µs | SELECT count(*) FROM information_schema.statistics WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'smart_bins' AND index_name = 'idx_smart_bins_deleted_at' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 610.7µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 505.6µs | SELECT count(*) FROM information_schema.tables WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND table_type = 'BASE TABLE' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 545µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT * FROM `configs` LIMIT 1 | -1 rows
+2024/12/26 09:39:56 [TRACE] 801.2µs | SELECT column_name, column_default, is_nullable = 'YES', data_type, character_maximum_length, column_type, column_key, extra, column_comment, numeric_precision, numeric_scale , datetime_precision FROM information_schema.columns WHERE table_schema = 'db_smart_trash_bin' AND table_name = 'configs' ORDER BY ORDINAL_POSITION | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 507.8µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 1.5036ms | 
 SELECT
 	TABLE_NAME,
 	COLUMN_NAME,
@@ -80,14 +80,9 @@ WHERE
 ORDER BY
 	INDEX_NAME,
 	SEQ_IN_INDEX | 2 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 592.8µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 505µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND constraint_name = 'uni_configs_bin_id' | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT DATABASE() | -1 rows
-2024/12/23 18:05:32 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
-2024/12/23 18:05:32 [TRACE] 521.3µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND constraint_name = 'fk_smart_bins_config' | -1 rows
-2024/12/23 18:05:52 [TRACE] 917.9µs | SELECT `is_valid` FROM `token_auths` WHERE token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJ1c2VyaWRFUmNtbzZXTmoiLCJFbWFpbCI6IndpZGFkYzcwQGdtYWlsLmNvbSIsImV4cCI6MTczNTAzNjEzNX0.sXOQvbTpXcdAr4362W7wdm2y7BmPUc6qPcv2_oqvCYE' ORDER BY `token_auths`.`id` LIMIT 1 | 1 rows
-2024/12/23 18:05:52 [TRACE] 1.0667ms | UPDATE `configs` SET `max_height`=2,`max_weight`=6,`updated_at`='2024-12-23 18:05:52.091' WHERE bin_id = '2NWEIO02IR5Y312' | 1 rows
-2024/12/23 18:05:57 [TRACE] 542.2µs | SELECT `is_valid` FROM `token_auths` WHERE token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJ1c2VyaWRFUmNtbzZXTmoiLCJFbWFpbCI6IndpZGFkYzcwQGdtYWlsLmNvbSIsImV4cCI6MTczNTAzNjEzNX0.sXOQvbTpXcdAr4362W7wdm2y7BmPUc6qPcv2_oqvCYE' ORDER BY `token_auths`.`id` LIMIT 1 | 1 rows
-2024/12/23 18:06:09 [TRACE] 651.6µs | SELECT `is_valid` FROM `token_auths` WHERE token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJ1c2VyaWRFUmNtbzZXTmoiLCJFbWFpbCI6IndpZGFkYzcwQGdtYWlsLmNvbSIsImV4cCI6MTczNTAzNjEzNX0.sXOQvbTpXcdAr4362W7wdm2y7BmPUc6qPcv2_oqvCYE' ORDER BY `token_auths`.`id` LIMIT 1 | 1 rows
-2024/12/23 18:06:09 [TRACE] 732.6µs | UPDATE `configs` SET `max_height`=60,`max_weight`=6,`updated_at`='2024-12-23 18:06:09.713' WHERE bin_id = '2NWEIO02IR5Y312' | 1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 519.1µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND constraint_name = 'uni_configs_bin_id' | -1 rows
+2024/12/26 09:39:56 [TRACE] 0s | SELECT DATABASE() | -1 rows
+2024/12/26 09:39:56 [TRACE] 562.1µs | SELECT SCHEMA_NAME from Information_schema.SCHEMATA where SCHEMA_NAME LIKE 'db_smart_trash_bin%' ORDER BY SCHEMA_NAME='db_smart_trash_bin' DESC,SCHEMA_NAME limit 1 | 1 rows
+2024/12/26 09:39:56 [TRACE] 505.5µs | SELECT count(*) FROM INFORMATION_SCHEMA.table_constraints WHERE constraint_schema = 'db_smart_trash_bin' AND table_name = 'configs' AND constraint_name = 'fk_smart_bins_config' | -1 rows

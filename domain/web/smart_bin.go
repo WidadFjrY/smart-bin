@@ -35,7 +35,7 @@ type SmartBinGetResponse struct {
 
 type SmartBin struct {
 	UserID               string            `json:"user_id"`
-	GroupID              string            `json:"group"`
+	GroupID              string            `json:"group_id"`
 	Name                 string            `json:"name"`
 	OrganicWeight        interface{}       `json:"organic_weight"`
 	NonOrganicWeight     interface{}       `json:"non_organic_weight"`

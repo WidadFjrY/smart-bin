@@ -12,6 +12,6 @@ func ConfigRouter(router *gin.Engine, db *gorm.DB, cntrl controller.ConfigContro
 	auth := router.Group("/")
 	auth.Use(middleware.Auth(db))
 	{
-		auth.PUT("api/bin/config/id/:bin_id", cntrl.UpdateConfigById)
+		auth.PUT("/api/config/bin_id/:bin_id", cntrl.UpdateConfigById)
 	}
 }

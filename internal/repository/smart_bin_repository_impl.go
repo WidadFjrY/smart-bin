@@ -74,7 +74,7 @@ func (repo *SmartBinRepositoryImpl) DeleteSmartBinById(ctx context.Context, tx *
 func (repo *SmartBinRepositoryImpl) GetSmartBins(ctx context.Context, tx *gorm.DB, limit int, offset int, userId string) []model.SmartBin {
 	var smartBins []model.SmartBin
 
-	err := tx.WithContext(ctx).Where("user_id = ?", userId).Limit(limit).Offset(offset).Find(&smartBins).Error
+	err := tx.WithContext(ctx).Preload("Config").Where("user_id = ?", userId).Limit(limit).Offset(offset).Find(&smartBins).Error
 	helper.Err(err)
 
 	return smartBins
@@ -140,5 +140,49 @@ func (repo *SmartBinRepositoryImpl) UpdateClassifyValue(ctx context.Context, tx 
 		},
 	).Error
 	helper.Err(err)
+	return time.Now()
+}
+
+func (repo *SmartBinRepositoryImpl) AddSmartBinToGroup(ctx context.Context, tx *gorm.DB, groupId string, binId string) time.Time {
+	err := tx.WithContext(ctx).Table("smart_bins").Where("id = ?", binId).Updates(
+		map[string]interface{}{
+			"group_id":   groupId,
+			"updated_at": time.Now(),
+		},
+	).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		panic(exception.NewNotFoundError(fmt.Sprintf("smart bin with id %s not found", binId)))
+	}
+	helper.Err(err)
+	return time.Now()
+}
+
+func (repo *SmartBinRepositoryImpl) RemoveSmartBinFromGroup(ctx context.Context, tx *gorm.DB, binId string) time.Time {
+	err := tx.WithContext(ctx).Table("smart_bins").Where("id = ?", binId).Updates(
+		map[string]interface{}{
+			"group_id":   nil,
+			"updated_at": time.Now(),
+		},
+	).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		panic(exception.NewNotFoundError(fmt.Sprintf("smart bin with id %s not found", binId)))
+	}
+	helper.Err(err)
+	return time.Now()
+}
+
+func (repo *SmartBinRepositoryImpl) LockAndUnlockByGroup(ctx context.Context, tx *gorm.DB, groupId string, status bool) time.Time {
+	// lock is true, unlock is false
+	err := tx.WithContext(ctx).Table("smart_bins").Where("group_id = ?", groupId).Updates(
+		map[string]interface{}{
+			"is_locked":  status,
+			"updated_at": time.Now(),
+		},
+	).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		panic(exception.NewNotFoundError(fmt.Sprintf("group with id %s not found", groupId)))
+	}
+	helper.Err(err)
+
 	return time.Now()
 }

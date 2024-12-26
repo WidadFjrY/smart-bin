@@ -10,9 +10,12 @@ import (
 )
 
 func SmartBinDI(db *gorm.DB, validator *validator.Validate) controller.SmartBinController {
-	repo := repository.NewSmartBinRepository()
-	serv := service.NewSmartBinService(db, validator, repo)
-	cntrl := controller.NewSmartBinController(serv)
+	binRepo := repository.NewSmartBinRepository()
+	binServ := service.NewSmartBinService(db, validator, binRepo)
+
+	groupRepo := repository.NewGroupRepository()
+	groupServ := service.NewGroupService(db, validator, groupRepo)
+	cntrl := controller.NewSmartBinController(binServ, groupServ)
 
 	return cntrl
 }
