@@ -12,11 +12,10 @@ type SmartBinService interface {
 	GetSmartBinById(ctx context.Context, binId string, userId string) web.SmartBinGetResponse
 	DeleteSmartBinById(ctx context.Context, binId string, userId string) web.SmartBinDeleteResponse
 	GetSmartBins(ctx context.Context, page int, userId string) ([]web.SmartBinGetResponse, int64, int)
-	LockAndUnlockSmartBin(ctx context.Context, status bool, binId string) web.SmartBinUpdateResponse
+	LockAndUnlockSmartBin(ctx context.Context, status bool, binIds []string) web.LockAndUnlockResponse
 	ClassifyImage(ctx context.Context, binId string, classify web.ClassifyResponse) web.SmartBinClassification
 	UpdateDataSmartBin(ctx context.Context, binId string, request web.UpdateValueRequest) web.UpdateValueResponse
 	IsSmartBinFull(ctx context.Context, status bool, binId string)
 	AddSmartBinToGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string, groupId string) web.SmartBinUpdateResponse
 	RemoveSmartBinFromGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string) web.SmartBinUpdateResponse
-	LockAndUnlockByGroup(ctx context.Context, status bool, groupId string) web.SmartBinUpdateResponse
 }

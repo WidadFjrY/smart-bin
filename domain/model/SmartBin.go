@@ -19,8 +19,8 @@ type SmartBin struct {
 	IsLocked             bool           `gorm:"type:bool;default:false"`
 	Location             string         `gorm:"type:varchar(100);not null"`
 	Config               Config         `gorm:"foreignKey:BinID;references:ID"`
-	// History              []History `gorm:"foreignKey:BinID;references:ID"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	History              []History      `gorm:"foreignKey:BinID;references:ID"`
+	CreatedAt            time.Time
+	UpdatedAt            time.Time
+	DeletedAt            gorm.DeletedAt `gorm:"index"`
 }

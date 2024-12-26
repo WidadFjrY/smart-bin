@@ -47,6 +47,7 @@ func NewDB() *gorm.DB {
 		&model.Group{},
 		&model.SmartBin{},
 		&model.Config{},
+		&model.History{},
 	)
 
 	return db

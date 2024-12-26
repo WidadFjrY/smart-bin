@@ -262,15 +262,37 @@ func (serv *SmartBinServiceImpl) GetSmartBins(ctx context.Context, page int, use
 	return smartBinResponses, totalItems, int(totalPages)
 }
 
-func (serv *SmartBinServiceImpl) LockAndUnlockSmartBin(ctx context.Context, status bool, binId string) web.SmartBinUpdateResponse {
+func (serv *SmartBinServiceImpl) LockAndUnlockSmartBin(ctx context.Context, status bool, binIds []string) web.LockAndUnlockResponse {
 	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
-		serv.SmartBinRepo.LockAndUnlockSmartBin(ctx, tx, binId, status)
+		for _, binId := range binIds {
+			serv.SmartBinRepo.LockAndUnlockSmartBin(ctx, tx, binId, status)
+
+		}
 		return nil
 	})
 	helper.Err(txErr)
 
-	return web.SmartBinUpdateResponse{
-		ID:        binId,
+	historyRepo := repository.NewHistoryRepository()
+	historyServ := NewHistoryService(serv.DB, historyRepo)
+
+	for _, binId := range binIds {
+		if status {
+			historyServ.CreateHistory(ctx, web.HistoryCreateRequest{
+				BinID:   binId,
+				Status:  "Success",
+				Message: "Smart Bin has been locked by user",
+			})
+		} else {
+			historyServ.CreateHistory(ctx, web.HistoryCreateRequest{
+				BinID:   binId,
+				Status:  "Success",
+				Message: "Smart Bin has been unlocked by user",
+			})
+		}
+	}
+
+	return web.LockAndUnlockResponse{
+		BinId:     binIds,
 		UpdatedAt: time.Now(),
 	}
 }
@@ -281,10 +303,23 @@ func (serv *SmartBinServiceImpl) ClassifyImage(ctx context.Context, binId string
 		"non_organic": 0,
 	}
 
+	historyRepo := repository.NewHistoryRepository()
+	historyServ := NewHistoryService(serv.DB, historyRepo)
+
 	if classify.Prediction == "organic" {
 		classifyResult["organic"] = 1
+		historyServ.CreateHistory(ctx, web.HistoryCreateRequest{
+			BinID:   binId,
+			Status:  "Success",
+			Message: "Storing waste in the organic bin",
+		})
 	} else if classify.Prediction == "non-organic" {
 		classifyResult["non_organic"] = 1
+		historyServ.CreateHistory(ctx, web.HistoryCreateRequest{
+			BinID:   binId,
+			Status:  "Success",
+			Message: "Storing waste in the non-organic bin",
+		})
 	}
 
 	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
@@ -304,6 +339,9 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 	configRepo := repository.NewConfigRepository()
 	configServ := NewConfigService(serv.DB, serv.Validator, configRepo)
 
+	historyRepo := repository.NewHistoryRepository()
+	historyServ := NewHistoryService(serv.DB, historyRepo)
+
 	sensorValues := map[string]float64{
 		"load_cell_organic":       request.LoadCellOrganic,
 		"load_cell_non_organic":   request.LoadCellNonOrganic,
@@ -320,8 +358,8 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 	}
 
 	isFull := false
-	userId := ""
-	warn := ""
+	var userId string
+	var warn string
 
 	for _, condition := range exceeded {
 		if condition {
@@ -342,6 +380,12 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 			} else if condition == exceeded[3] {
 				warn = "the height of non-organic trash bin exceeds the limit"
 			}
+
+			historyServ.CreateHistory(ctx, web.HistoryCreateRequest{
+				BinID:   binId,
+				Status:  "Success",
+				Message: fmt.Sprintf("Smart Bin has been locked automatically, 'cause %s", warn),
+			})
 			break
 		}
 
@@ -441,20 +485,6 @@ func (serv *SmartBinServiceImpl) RemoveSmartBinFromGroup(ctx context.Context, re
 	helper.Err(txErr)
 	return web.SmartBinUpdateResponse{
 		ID:        request.BinId,
-		UpdatedAt: time.Now(),
-	}
-}
-
-func (serv *SmartBinServiceImpl) LockAndUnlockByGroup(ctx context.Context, status bool, groupId string) web.SmartBinUpdateResponse {
-	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
-		serv.SmartBinRepo.LockAndUnlockByGroup(ctx, tx, groupId, status)
-		return nil
-	})
-
-	helper.Err(txErr)
-
-	return web.SmartBinUpdateResponse{
-		ID:        groupId,
 		UpdatedAt: time.Now(),
 	}
 }

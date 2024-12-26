@@ -25,11 +25,13 @@ func Run() {
 	smartBinCntrl := di.SmartBinDI(db, validator)
 	configCntrl := di.ConfigDI(db, validator)
 	groupCntrl := di.GroupDI(db, validator)
+	historyCntrl := di.HistoryDI(db)
 
 	router.UserRouter(gin, db, userCntrl)
 	router.SmartBinRouter(gin, db, smartBinCntrl)
 	router.ConfigRouter(gin, db, configCntrl)
 	router.GroupRouter(gin, db, groupCntrl)
+	router.HistoryRouter(gin, db, historyCntrl)
 
 	err := gin.Run("localhost:8080")
 	helper.Err(err)

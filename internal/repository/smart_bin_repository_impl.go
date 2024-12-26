@@ -170,19 +170,3 @@ func (repo *SmartBinRepositoryImpl) RemoveSmartBinFromGroup(ctx context.Context,
 	helper.Err(err)
 	return time.Now()
 }
-
-func (repo *SmartBinRepositoryImpl) LockAndUnlockByGroup(ctx context.Context, tx *gorm.DB, groupId string, status bool) time.Time {
-	// lock is true, unlock is false
-	err := tx.WithContext(ctx).Table("smart_bins").Where("group_id = ?", groupId).Updates(
-		map[string]interface{}{
-			"is_locked":  status,
-			"updated_at": time.Now(),
-		},
-	).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		panic(exception.NewNotFoundError(fmt.Sprintf("group with id %s not found", groupId)))
-	}
-	helper.Err(err)
-
-	return time.Now()
-}

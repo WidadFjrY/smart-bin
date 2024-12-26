@@ -80,3 +80,8 @@ type UpdateValueResponse struct {
 	LokedDesc string    `json:"loked_desc"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type LockAndUnlockResponse struct {
+	BinId     []string  `json:"bin_id"`
+	UpdatedAt time.Time `json:"updated_at"`
+}

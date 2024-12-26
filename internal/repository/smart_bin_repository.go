@@ -20,5 +20,4 @@ type SmartBinRepository interface {
 	UpdateClassifyValue(ctx context.Context, tx *gorm.DB, waste map[string]float64, binId string) time.Time
 	AddSmartBinToGroup(ctx context.Context, tx *gorm.DB, groupId string, binId string) time.Time
 	RemoveSmartBinFromGroup(ctx context.Context, tx *gorm.DB, binId string) time.Time
-	LockAndUnlockByGroup(ctx context.Context, tx *gorm.DB, groupId string, status bool) time.Time
 }

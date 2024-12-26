@@ -151,9 +151,13 @@ func (cntrl *SmartBinControllerImpl) LockSmartBin(ctx *gin.Context) {
 		MsgResp:  "OK",
 	}
 
+	binIds := []string{
+		binId,
+	}
+
 	mqttResp := helper.NewMQTT(mqttConf)
 	if mqttResp {
-		response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, true, binId)
+		response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, true, binIds)
 		helper.Response(ctx, http.StatusOK, "Ok", response)
 	} else {
 		panic(exception.NewBadRequestError(fmt.Sprintf("failed to lock smart bin with id %s, 'cause smart bin not found", binId)))
@@ -182,9 +186,13 @@ func (cntrl *SmartBinControllerImpl) UnlockSmartBin(ctx *gin.Context) {
 		MsgResp:  "OK",
 	}
 
+	binIds := []string{
+		binId,
+	}
+
 	mqttResp := helper.NewMQTT(mqttConf)
 	if mqttResp {
-		response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, false, binId)
+		response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, false, binIds)
 		helper.Response(ctx, http.StatusOK, "Ok", response)
 	} else {
 		panic(exception.NewBadRequestError(fmt.Sprintf("failed to unlock smart bin with id %s, 'cause smart bin not found", binId)))
@@ -344,7 +352,7 @@ func (cntrl *SmartBinControllerImpl) LockByGroup(ctx *gin.Context) {
 		}
 	}
 
-	response := cntrl.SmartBinServ.LockAndUnlockByGroup(ctx, true, groupId)
+	response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, true, binIds)
 	helper.Response(ctx, http.StatusOK, "Ok", response)
 }
 
@@ -388,6 +396,6 @@ func (cntrl *SmartBinControllerImpl) UnlockByGroup(ctx *gin.Context) {
 		}
 	}
 
-	response := cntrl.SmartBinServ.LockAndUnlockByGroup(ctx, false, groupId)
+	response := cntrl.SmartBinServ.LockAndUnlockSmartBin(ctx, false, binIds)
 	helper.Response(ctx, http.StatusOK, "Ok", response)
 }
