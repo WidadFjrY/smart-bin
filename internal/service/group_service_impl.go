@@ -182,3 +182,20 @@ func (serv *GroupServiceImpl) UpdateGroupById(ctx context.Context, request web.G
 		UpdatedAt: time.Now(),
 	}
 }
+
+func (serv *GroupServiceImpl) DeleteGroupById(ctx context.Context, groupId string, userId string) web.GroupUpdateResponse {
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		group := serv.Repo.GetGroupById(ctx, tx, groupId)
+
+		if group.UserID != userId {
+			panic(exception.NewBadRequestError("user doesn't own this group"))
+		}
+		serv.Repo.DeleteGroupById(ctx, tx, groupId)
+		return nil
+	})
+	helper.Err(txErr)
+	return web.GroupUpdateResponse{
+		Id:        groupId,
+		UpdatedAt: time.Now(),
+	}
+}

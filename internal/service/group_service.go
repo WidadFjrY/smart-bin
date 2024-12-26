@@ -10,4 +10,5 @@ type GroupService interface {
 	GetGroupById(ctx context.Context, groupId string, userId string) web.GroupGetResponse
 	GetGroups(ctx context.Context, page int, userId string) ([]web.GroupGetResponses, int64, int)
 	UpdateGroupById(ctx context.Context, request web.GroupUpdateRequest, groupId string, userId string) web.GroupUpdateResponse
+	DeleteGroupById(ctx context.Context, groupId string, userId string) web.GroupUpdateResponse
 }

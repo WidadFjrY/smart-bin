@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Group struct {
 	ID        string     `gorm:"primaryKey;type:char(15);not null"`
@@ -10,4 +14,5 @@ type Group struct {
 	SmartBin  []SmartBin `gorm:"foreignKey:GroupID;references:ID"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt
 }

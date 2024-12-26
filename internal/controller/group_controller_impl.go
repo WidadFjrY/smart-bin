@@ -68,3 +68,11 @@ func (cntrl *GroupControllerImpl) UpdateGroupById(ctx *gin.Context) {
 	response := cntrl.Serv.UpdateGroupById(ctx.Request.Context(), request, groupId, userId.(string))
 	helper.Response(ctx, http.StatusOK, "Ok", response)
 }
+
+func (cntrl *GroupControllerImpl) DeleteGroupById(ctx *gin.Context) {
+	userId, _ := ctx.Get("user_id")
+	groupId := ctx.Params.ByName("group_id")
+
+	response := cntrl.Serv.DeleteGroupById(ctx.Request.Context(), groupId, userId.(string))
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}

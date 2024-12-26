@@ -13,4 +13,5 @@ type GroupRepostory interface {
 	GetGroupById(ctx context.Context, tx *gorm.DB, groupId string) model.Group
 	GetGroups(ctx context.Context, tx *gorm.DB, userId string, offset int, limit int) ([]model.Group, int64)
 	UpdateGroupById(ctx context.Context, tx *gorm.DB, group model.Group) time.Time
+	DeleteGroupById(ctx context.Context, tx *gorm.DB, groupId string) time.Time
 }

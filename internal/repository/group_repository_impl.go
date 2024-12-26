@@ -7,6 +7,7 @@ import (
 	"smart-trash-bin/domain/model"
 	"smart-trash-bin/pkg/exception"
 	"smart-trash-bin/pkg/helper"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -59,6 +60,19 @@ func (repo *GroupRepostoryImpl) UpdateGroupById(ctx context.Context, tx *gorm.DB
 	).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		panic(exception.NewNotFoundError(fmt.Sprintf("group with id %s not found", group.ID)))
+	}
+	helper.Err(err)
+
+	return time.Now()
+}
+
+func (repo *GroupRepostoryImpl) DeleteGroupById(ctx context.Context, tx *gorm.DB, groupId string) time.Time {
+	err := tx.WithContext(ctx).Table("groups").Where("id = ?", groupId).Delete(nil).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		panic(exception.NewNotFoundError(fmt.Sprintf("group with id %s not found", groupId)))
+	}
+	if strings.Contains(err.Error(), "Error 1451 (23000)") {
+		panic(exception.NewBadRequestError(fmt.Sprintf("group with id %s contains smart bin", groupId)))
 	}
 	helper.Err(err)
 

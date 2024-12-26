@@ -7,4 +7,5 @@ type GroupController interface {
 	GetGroupById(ctx *gin.Context)
 	GetGroups(ctx *gin.Context)
 	UpdateGroupById(ctx *gin.Context)
+	DeleteGroupById(ctx *gin.Context)
 }
