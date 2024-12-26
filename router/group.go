@@ -15,5 +15,6 @@ func GroupRouter(router *gin.Engine, db *gorm.DB, cntrl controller.GroupControll
 		auth.POST("/api/group", cntrl.Create)
 		auth.GET("/api/group/id/:group_id", cntrl.GetGroupById)
 		auth.GET("/api/group/:page", cntrl.GetGroups)
+		auth.PUT("/api/group/id/:group_id", cntrl.UpdateGroupById)
 	}
 }

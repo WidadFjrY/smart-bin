@@ -7,6 +7,7 @@ import (
 	"smart-trash-bin/domain/model"
 	"smart-trash-bin/pkg/exception"
 	"smart-trash-bin/pkg/helper"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -46,4 +47,20 @@ func (repo *GroupRepostoryImpl) GetGroups(ctx context.Context, tx *gorm.DB, user
 	helper.Err(err)
 
 	return group, totalGroup
+}
+
+func (repo *GroupRepostoryImpl) UpdateGroupById(ctx context.Context, tx *gorm.DB, group model.Group) time.Time {
+	err := tx.WithContext(ctx).Table("groups").Where("id = ?", group.ID).Updates(
+		map[string]interface{}{
+			"name":       group.Name,
+			"location":   group.Location,
+			"updated_at": time.Now(),
+		},
+	).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		panic(exception.NewNotFoundError(fmt.Sprintf("group with id %s not found", group.ID)))
+	}
+	helper.Err(err)
+
+	return time.Now()
 }

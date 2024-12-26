@@ -67,3 +67,13 @@ type SmartBinNames struct {
 	Name     string `json:"name"`
 	IsLocked bool   `json:"is_locked"`
 }
+
+type GroupUpdateRequest struct {
+	Name     string `json:"name" validate:"required,min=1"`
+	Location string `json:"location" validate:"required,min=1"`
+}
+
+type GroupUpdateResponse struct {
+	Id        string    `json:"id"`
+	UpdatedAt time.Time `json:"updated_at"`
+}

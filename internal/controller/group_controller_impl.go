@@ -56,3 +56,15 @@ func (cntrl *GroupControllerImpl) GetGroups(ctx *gin.Context) {
 	response, totalItems, totalPage := cntrl.Serv.GetGroups(ctx.Request.Context(), pageInt, userId.(string))
 	helper.ResponseWithPage(ctx, http.StatusOK, "Ok", response, pageInt, totalPage, totalItems)
 }
+
+func (cntrl *GroupControllerImpl) UpdateGroupById(ctx *gin.Context) {
+	var request web.GroupUpdateRequest
+	userId, _ := ctx.Get("user_id")
+	groupId := ctx.Params.ByName("group_id")
+
+	decoder := json.NewDecoder(ctx.Request.Body)
+	decoder.Decode(&request)
+
+	response := cntrl.Serv.UpdateGroupById(ctx.Request.Context(), request, groupId, userId.(string))
+	helper.Response(ctx, http.StatusOK, "Ok", response)
+}

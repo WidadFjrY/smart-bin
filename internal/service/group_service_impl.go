@@ -158,3 +158,27 @@ func (serv *GroupServiceImpl) GetGroups(ctx context.Context, page int, userId st
 
 	return groupGetResponses, totalItems, int(totalPages)
 }
+
+func (serv *GroupServiceImpl) UpdateGroupById(ctx context.Context, request web.GroupUpdateRequest, groupId string, userId string) web.GroupUpdateResponse {
+	valErr := serv.Validator.Struct(&request)
+	helper.ValError(valErr)
+
+	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
+		group := serv.Repo.GetGroupById(ctx, tx, groupId)
+
+		if group.UserID != userId {
+			panic(exception.NewBadRequestError("user doesn't own this group"))
+		}
+		serv.Repo.UpdateGroupById(ctx, tx, model.Group{
+			ID:       groupId,
+			Name:     request.Name,
+			Location: request.Location,
+		})
+		return nil
+	})
+	helper.Err(txErr)
+	return web.GroupUpdateResponse{
+		Id:        groupId,
+		UpdatedAt: time.Now(),
+	}
+}
