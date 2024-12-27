@@ -1,7 +1,6 @@
 package web
 
 import (
-	"smart-trash-bin/domain/model"
 	"time"
 )
 
@@ -27,16 +26,17 @@ type UserLoginResponse struct {
 }
 
 type UserGetResponse struct {
-	ID        string                     `json:"id"`
-	Name      string                     `json:"name"`
-	Email     string                     `json:"email"`
-	SmartBin  []SmartBinWithUserResponse `json:"smart_bin"`
-	Group     []model.Group              `json:"group"`
-	CreatedAt time.Time                  `json:"created_at"`
-	UpdatedAt time.Time                  `json:"updated_at"`
+	ID           string             `json:"id"`
+	Name         string             `json:"name"`
+	Email        string             `json:"email"`
+	SmartBin     []UserWithSmartBin `json:"smart_bin"`
+	Group        []UserWithGroup    `json:"group"`
+	Notification []UserWithNotif
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
-type SmartBinWithUserResponse struct {
+type UserWithSmartBin struct {
 	BinId string `json:"bin_id"`
 	Name  string `json:"name"`
 }
@@ -59,4 +59,19 @@ type UserUpdateResponse struct {
 type UserLogoutResponse struct {
 	Id          string    `json:"id"`
 	LoggedOutAt time.Time `json:"logged_out_at"`
+}
+
+type UserWithGroup struct {
+	GroupId   string `json:"group_id"`
+	Name      string `json:"name"`
+	Location  string `json:"location"`
+	TotalBins int    `json:"total_bins"`
+}
+
+type UserWithNotif struct {
+	NotifId   string    `json:"notif_id"`
+	Title     string    `json:"title"`
+	Desc      string    `json:"desc"`
+	IsRead    bool      `json:"is_read"`
+	CreatedAt time.Time `json:"created_at"`
 }

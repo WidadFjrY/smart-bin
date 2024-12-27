@@ -126,22 +126,45 @@ func (serv *UserServiceImpl) GetUserById(ctx context.Context, userId string) web
 	})
 	helper.Err(txErr)
 
-	var binIds []web.SmartBinWithUserResponse
+	var bins []web.UserWithSmartBin
+	var groups []web.UserWithGroup
+	var notifications []web.UserWithNotif
+
 	for _, smartBin := range user.SmartBin {
-		binId := web.SmartBinWithUserResponse{
+		bins = append(bins, web.UserWithSmartBin{
 			BinId: smartBin.ID,
 			Name:  smartBin.Name,
-		}
-		binIds = append(binIds, binId)
+		})
+	}
+
+	for _, group := range user.Group {
+		groups = append(groups, web.UserWithGroup{
+			GroupId:   group.ID,
+			Name:      group.Name,
+			Location:  group.Location,
+			TotalBins: len(group.SmartBin),
+		})
+	}
+
+	for _, notification := range user.Notification {
+		notifications = append(notifications, web.UserWithNotif{
+			NotifId:   notification.ID,
+			Title:     notification.Title,
+			Desc:      notification.Desc,
+			IsRead:    notification.IsRead,
+			CreatedAt: notification.CreatedAt,
+		})
 	}
 
 	return web.UserGetResponse{
-		ID:        user.ID,
-		Name:      user.Name,
-		Email:     user.Email,
-		SmartBin:  binIds,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		ID:           user.ID,
+		Name:         user.Name,
+		Email:        user.Email,
+		SmartBin:     bins,
+		Group:        groups,
+		Notification: notifications,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
 	}
 }
 

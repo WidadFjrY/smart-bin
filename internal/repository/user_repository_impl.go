@@ -49,7 +49,7 @@ func (Repo *UserRepostioryImpl) GetUserByEmail(ctx context.Context, tx *gorm.DB,
 func (Repo *UserRepostioryImpl) GetUserById(ctx context.Context, tx *gorm.DB, userId string) model.User {
 	var user model.User
 
-	result := tx.WithContext(ctx).Preload("SmartBin").Where("id = ?", userId).First(&user)
+	result := tx.WithContext(ctx).Preload("SmartBin").Preload("Group.SmartBin").Preload("Notification").Where("id = ?", userId).First(&user)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		panic(exception.NewNotFoundError(fmt.Sprintf("user with id %s not found", userId)))
 	}

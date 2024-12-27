@@ -342,6 +342,9 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 	historyRepo := repository.NewHistoryRepository()
 	historyServ := NewHistoryService(serv.DB, historyRepo)
 
+	notifRepo := repository.NewNotificationRepository()
+	notifServ := NewNotificationService(serv.DB, notifRepo)
+
 	sensorValues := map[string]float64{
 		"load_cell_organic":       request.LoadCellOrganic,
 		"load_cell_non_organic":   request.LoadCellNonOrganic,
@@ -358,19 +361,24 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 	}
 
 	isFull := false
+	isAlmostFull := false
+	almostFull := 90
 	var userId string
 	var warn string
 
+	serv.DB.Transaction(func(tx *gorm.DB) error {
+		smartBin, _ := serv.SmartBinRepo.GetSmartBinById(ctx, tx, binId)
+		userId = smartBin.UserID
+		return nil
+	})
+
 	for _, condition := range exceeded {
 		if condition {
+			isFull = true
 			serv.DB.Transaction(func(tx *gorm.DB) error {
 				serv.SmartBinRepo.LockAndUnlockSmartBin(ctx, tx, binId, true)
-				smartBin, _ := serv.SmartBinRepo.GetSmartBinById(ctx, tx, binId)
-				userId = smartBin.UserID
 				return nil
 			})
-			isFull = true
-
 			if condition == exceeded[0] {
 				warn = "the weight of organic trash bin exceeds the limit"
 			} else if condition == exceeded[1] {
@@ -386,10 +394,32 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 				Status:  "Success",
 				Message: fmt.Sprintf("Smart Bin has been locked automatically, 'cause %s", warn),
 			})
+
+			notifServ.CreateNotification(ctx, web.NotificationCreateRequest{
+				Title: "Smart Bin Locked Automatically",
+				Desc:  fmt.Sprintf("Smart Bin with id %s has been locked automatically, 'cause %s", binId, warn),
+			}, userId)
 			break
 		}
 
 	}
+
+	if (config.MaxHeight*float64(almostFull))/100 < request.UltraSonicOrganic && !isFull {
+		warn = fmt.Sprintf("the organic bin with id %s is almost full", binId)
+		isAlmostFull = true
+	}
+	if (config.MaxHeight*float64(almostFull))/100 < request.UltraSonicNonOrganic && !isFull {
+		warn = fmt.Sprintf("the non-organic bin with id %s is almost full", binId)
+		isAlmostFull = true
+	}
+
+	if isAlmostFull && !isFull {
+		notifServ.CreateNotification(ctx, web.NotificationCreateRequest{
+			Title: "Smart Bin Almost Full",
+			Desc:  warn,
+		}, userId)
+	}
+
 	txErr := serv.DB.Transaction(func(tx *gorm.DB) error {
 		serv.SmartBinRepo.UpdateSensorValue(ctx, tx, sensorValues, binId)
 		return nil
@@ -405,36 +435,34 @@ func (serv *SmartBinServiceImpl) UpdateDataSmartBin(ctx context.Context, binId s
 	}
 }
 
-func (serv *SmartBinServiceImpl) IsSmartBinFull(ctx context.Context, status bool, binId string) {
+func (serv *SmartBinServiceImpl) IsSmartBinFull(ctx context.Context, binId string) {
 	configRepo := repository.NewConfigRepository()
 	configServ := NewConfigService(serv.DB, serv.Validator, configRepo)
 	config := configServ.GetConfigByBinId(ctx, binId)
 
-	if !status {
-		var smartBin model.SmartBin
-		errTx := serv.DB.Transaction(func(tx *gorm.DB) error {
-			smartBin, _ = serv.SmartBinRepo.GetSmartBinById(ctx, tx, binId)
-			return nil
-		})
-		helper.Err(errTx)
+	var smartBin model.SmartBin
+	errTx := serv.DB.Transaction(func(tx *gorm.DB) error {
+		smartBin, _ = serv.SmartBinRepo.GetSmartBinById(ctx, tx, binId)
+		return nil
+	})
+	helper.Err(errTx)
 
-		var loadCellValue map[string]interface{}
-		var ultraSonicValue map[string]interface{}
+	var loadCellValue map[string]interface{}
+	var ultraSonicValue map[string]interface{}
 
-		json.Unmarshal(smartBin.LoadCellValue, &loadCellValue)
-		json.Unmarshal(smartBin.UltraSonicValue, &ultraSonicValue)
+	json.Unmarshal(smartBin.LoadCellValue, &loadCellValue)
+	json.Unmarshal(smartBin.UltraSonicValue, &ultraSonicValue)
 
-		exceeded := []bool{
-			loadCellValue["organic"].(float64) > config.MaxWeight,
-			ultraSonicValue["organic"].(float64) > config.MaxHeight,
-			loadCellValue["non_organic"].(float64) > config.MaxWeight,
-			ultraSonicValue["non_organic"].(float64) > config.MaxHeight,
-		}
+	exceeded := []bool{
+		loadCellValue["organic"].(float64) > config.MaxWeight,
+		ultraSonicValue["organic"].(float64) > config.MaxHeight,
+		loadCellValue["non_organic"].(float64) > config.MaxWeight,
+		ultraSonicValue["non_organic"].(float64) > config.MaxHeight,
+	}
 
-		for _, condition := range exceeded {
-			if condition {
-				panic(exception.NewBadRequestError("the trash must be emptied before it can be opened"))
-			}
+	for _, condition := range exceeded {
+		if condition {
+			panic(exception.NewBadRequestError(fmt.Sprintf("the trash with id %s must be emptied before it can be opened", binId)))
 		}
 	}
 }

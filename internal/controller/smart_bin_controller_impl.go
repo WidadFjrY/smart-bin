@@ -173,7 +173,7 @@ func (cntrl *SmartBinControllerImpl) UnlockSmartBin(ctx *gin.Context) {
 	}
 
 	smartBin := cntrl.SmartBinServ.GetSmartBinById(ctx, binId, userId.(string))
-	cntrl.SmartBinServ.IsSmartBinFull(ctx, false, binId)
+	cntrl.SmartBinServ.IsSmartBinFull(ctx, binId)
 
 	if !smartBin.SmartBin.IsLocked {
 		panic(exception.NewBadRequestError(fmt.Sprintf("failed to unlock smart bin with id %s, 'cause smart bin already unlocked", binId)))
@@ -275,6 +275,14 @@ func (cntrl *SmartBinControllerImpl) UpdateSmartBinValue(ctx *gin.Context) {
 			MsgResp:  "OK",
 		}
 		helper.NewMQTT(mqttConf)
+	} else if len(response.LokedDesc) != 0 {
+		mqttConf := web.MQTTRequest{
+			ClientId: "server",
+			Topic:    fmt.Sprintf("user/notificaton/%s", response.UserId),
+			Payload:  response.LokedDesc,
+			MsgResp:  "OK",
+		}
+		helper.NewMQTT(mqttConf)
 	}
 	helper.Response(ctx, http.StatusOK, "Ok", response)
 }
@@ -371,6 +379,7 @@ func (cntrl *SmartBinControllerImpl) UnlockByGroup(ctx *gin.Context) {
 
 	for _, smartBin := range smartBins {
 		if smartBin.Data.IsLocked {
+			cntrl.SmartBinServ.IsSmartBinFull(ctx, smartBin.Id)
 			binIds = append(binIds, smartBin.Id)
 		}
 	}

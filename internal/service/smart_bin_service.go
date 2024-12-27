@@ -15,7 +15,7 @@ type SmartBinService interface {
 	LockAndUnlockSmartBin(ctx context.Context, status bool, binIds []string) web.LockAndUnlockResponse
 	ClassifyImage(ctx context.Context, binId string, classify web.ClassifyResponse) web.SmartBinClassification
 	UpdateDataSmartBin(ctx context.Context, binId string, request web.UpdateValueRequest) web.UpdateValueResponse
-	IsSmartBinFull(ctx context.Context, status bool, binId string)
+	IsSmartBinFull(ctx context.Context, binId string)
 	AddSmartBinToGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string, groupId string) web.SmartBinUpdateResponse
 	RemoveSmartBinFromGroup(ctx context.Context, request web.SmartBinCreateRequest, userId string) web.SmartBinUpdateResponse
 }
