@@ -270,7 +270,7 @@ func (cntrl *SmartBinControllerImpl) UpdateSmartBinValue(ctx *gin.Context) {
 	if response.Loked {
 		mqttConf := web.MQTTRequest{
 			ClientId: "server",
-			Topic:    fmt.Sprintf("user/notificaton/%s", response.UserId),
+			Topic:    fmt.Sprintf("user/notification/%s", response.UserId),
 			Payload:  fmt.Sprintf("Smart bin with ID %s automatically locked 'cause %s", response.ID, response.LokedDesc),
 			MsgResp:  "OK",
 		}
@@ -278,7 +278,7 @@ func (cntrl *SmartBinControllerImpl) UpdateSmartBinValue(ctx *gin.Context) {
 	} else if len(response.LokedDesc) != 0 {
 		mqttConf := web.MQTTRequest{
 			ClientId: "server",
-			Topic:    fmt.Sprintf("user/notificaton/%s", response.UserId),
+			Topic:    fmt.Sprintf("user/notification/%s", response.UserId),
 			Payload:  response.LokedDesc,
 			MsgResp:  "OK",
 		}
